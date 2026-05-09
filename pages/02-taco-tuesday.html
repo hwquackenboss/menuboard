@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: Georgia, 'Times New Roman', serif;
+    background: #1c0a00;
+  }
+
+  .bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%,   rgba(220,100,0,0.35) 0%, transparent 55%),
+      radial-gradient(ellipse at 10% 100%, rgba(180,60,0,0.2)  0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%,  rgba(100,20,0,0.2)  0%, transparent 50%),
+      linear-gradient(170deg, #1c0a00 0%, #2a1000 100%);
+  }
+
+  /* Warm texture lines */
+  .texture {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,140,0,0.025) 40px,
+      rgba(255,140,0,0.025) 41px
+    );
+  }
+
+  /* Top banner */
+  .banner {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 2.5vh 6vw;
+    background: linear-gradient(90deg, #c45000, #e06000, #c45000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+  }
+
+  .banner-text {
+    font-size: clamp(1.2rem, 3.5vw, 3rem);
+    color: #fff8e8;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-style: italic;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  .banner-emoji {
+    font-size: clamp(1.4rem, 3.5vw, 3rem);
+  }
+
+  /* Main layout */
+  .layout {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 14vh; /* clear the banner */
+    padding-bottom: 3vh;
+    padding-left: 6vw;
+    padding-right: 6vw;
+  }
+
+  /* Left: tacos */
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 5vw;
+    border-right: 1px solid rgba(255,140,0,0.2);
+    gap: 2.5vh;
+    opacity: 0;
+    animation: fadeIn 0.7s ease forwards 0.3s;
+  }
+
+  .item-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1vw;
+  }
+
+  .item-name {
+    font-size: clamp(1.4rem, 3.5vw, 3.2rem);
+    color: #ffe0a0;
+    font-style: italic;
+    line-height: 1;
+  }
+
+  .item-price {
+    font-size: clamp(1.4rem, 3.5vw, 3.2rem);
+    color: #ff9a3c;
+    font-style: italic;
+    white-space: nowrap;
+  }
+
+  .item-detail {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(0.65rem, 1.3vw, 1rem);
+    color: rgba(255,220,150,0.55);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+
+  .proteins {
+    display: flex;
+    gap: 1.5vw;
+    flex-wrap: wrap;
+  }
+
+  .protein-tag {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(0.6rem, 1.1vw, 0.85rem);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1c0a00;
+    background: #ff9a3c;
+    padding: 0.3em 0.8em;
+    border-radius: 2px;
+  }
+
+  .taco-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,140,0,0.3), transparent);
+  }
+
+  /* Right: sides */
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5vw;
+    gap: 3vh;
+    opacity: 0;
+    animation: fadeIn 0.7s ease forwards 0.55s;
+  }
+
+  .sides-label {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(0.6rem, 1.1vw, 0.85rem);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(255,140,0,0.5);
+    margin-bottom: 0.5vh;
+  }
+
+  .side-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6vh;
+    padding-bottom: 2.5vh;
+    border-bottom: 1px solid rgba(255,140,0,0.15);
+  }
+  .side-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .side-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .side-name {
+    font-size: clamp(1.2rem, 2.8vw, 2.6rem);
+    color: #ffe0a0;
+    font-style: italic;
+  }
+
+  .side-price {
+    font-size: clamp(1.2rem, 2.8vw, 2.6rem);
+    color: #ff9a3c;
+    font-style: italic;
+  }
+
+  .side-note {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(0.55rem, 1vw, 0.8rem);
+    color: rgba(255,220,150,0.4);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="texture"></div>
+
+  <div class="banner">
+    <span class="banner-emoji">🌮</span>
+    <span class="banner-text">Taco Tuesday</span>
+    <span class="banner-emoji">🌮</span>
+  </div>
+
+  <div class="layout">
+
+    <!-- Left: Tacos -->
+    <div class="left">
+      <div class="item-header">
+        <span class="item-name">Tacos</span>
+        <span class="item-price">$4</span>
+      </div>
+
+      <div class="proteins">
+        <span class="protein-tag">Beef</span>
+        <span class="protein-tag">Chicken</span>
+        <span class="protein-tag">Fish</span>
+      </div>
+
+      <div class="taco-divider"></div>
+
+      <div class="item-detail">
+        Served with rice &amp; beans
+      </div>
+    </div>
+
+    <!-- Right: Sides -->
+    <div class="right">
+      <div class="sides-label">Also Available</div>
+
+      <div class="side-item">
+        <div class="side-row">
+          <span class="side-name">Chips &amp; Queso</span>
+          <span class="side-price">$4</span>
+        </div>
+      </div>
+
+      <div class="side-item">
+        <div class="side-row">
+          <span class="side-name">Jalapeño Poppers</span>
+          <span class="side-price">$6</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
